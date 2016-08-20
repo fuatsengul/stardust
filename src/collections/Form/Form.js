@@ -1,134 +1,124 @@
 import cx from 'classnames'
-import $ from 'jquery'
 import _ from 'lodash'
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 
 import {
-  deprecateProps,
   getUnhandledProps,
   META,
+  SUI,
+  useKeyOnly,
+  useWidthProp,
 } from '../../lib'
 import FormField from './FormField'
-import FormFields from './FormFields'
 
-export default class Form extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    settings: PropTypes.shape({
-      on: PropTypes.string,
-      inline: PropTypes.bool,
-      fields: PropTypes.object,
-    }),
+const serialize = (formNode) => {
+  const json = {}
+  // handle empty formNode ref
+  if (!formNode) return json
 
-    // form settings
-    keyboardShortcuts: PropTypes.bool,
-    on: PropTypes.oneOf([
-      'blur',
-      'change',
-      'submit',
-    ]),
-    revalidate: PropTypes.bool,
-    delay: PropTypes.bool,
-    inline: PropTypes.bool,
-    transition: PropTypes.string,
-    duration: PropTypes.number,
-    // callbacks
-    onValid: PropTypes.func,
-    onInvalid: PropTypes.func,
-    onSuccess: PropTypes.func,
-    onFailure: PropTypes.func,
-    fields: PropTypes.object,
-  }
+  _.each(['input', 'textarea', 'select'], (tag) => {
+    _.each(formNode.getElementsByTagName(tag), (node, index, arr) => {
+      const name = node.getAttribute('name')
 
-  static defaultProps = {
-    // prevent submit by default
-    // https://github.com/Semantic-Org/Semantic-UI/issues/546
-    onSuccess: () => false,
-  }
+      switch (node.getAttribute('type')) {
+        case 'checkbox':
+          json[name] = { checked: node.checked }
+          break
 
-  constructor(props, context) {
-    super(props, context)
-    deprecateProps(this, {
-      settings: 'Use a separate prop for each setting.',
+        case 'radio':
+          json[name] = { value: _.find(arr, { name, checked: true }).value }
+          break
+
+        default:
+          json[name] = { value: node.value }
+          break
+      }
     })
-  }
+  })
 
-  componentDidMount() {
-    this.refresh()
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this.refresh()
-  }
-
-  componentWillUnmount() {
-    _.invoke(this, 'element.off')
-  }
-
-  static _meta = {
-    name: 'Form',
-    type: META.TYPES.COLLECTION,
-  }
-
-  static Field = FormField
-  static Fields = FormFields
-
-  plugin(...args) {
-    return this.element.form(...args)
-  }
-
-  refresh() {
-    this.element = $(this.refs.element)
-    this.element.form(_.pick(this.props, [
-      'keyboardShortcuts',
-      // validation
-      'delay', 'duration', 'fields', 'on', 'inline', 'revalidate', 'transition',
-      // callbacks
-      'onValid', 'onInvalid', 'onSuccess', 'onFailure',
-    ]))
-  }
-
-  serializeJson = () => {
-    const form = this.refs.element
-    const json = {}
-
-    _.each(['input', 'textarea', 'select'], (tag) => {
-      _.each(form.getElementsByTagName(tag), (node, index, arr) => {
-        const name = node.getAttribute('name')
-
-        switch (node.getAttribute('type')) {
-          case 'checkbox':
-            json[name] = { checked: node.checked }
-            break
-
-          case 'radio':
-            json[name] = {
-              value: _.find(arr, { name, checked: true }).value,
-            }
-            break
-
-          default:
-            json[name] = { value: node.value }
-            break
-        }
-      })
-    })
-
-    return json
-  }
-
-  render() {
-    const classes = cx(
-      'ui',
-      this.props.className,
-      'form'
-    )
-    const props = getUnhandledProps(Form, this.props)
-    return (
-      <form {...props} className={classes} ref='element'>
-        {this.props.children}
-      </form>
-    )
-  }
+  return json
 }
+/**
+ * A Form displays a set of related user input fields in a structured way.
+ * @see Button
+ * @see Checkbox
+ * @see Dropdown
+ * @see Input
+ * @see Message
+ * @see Radio
+ * @see Select
+ * @see TextArea
+ */
+function Form(props) {
+  const { className, children, error, loading, onChange, size, success, warning, widths } = props
+  const classes = cx(
+    'ui',
+    size,
+    useKeyOnly(loading, 'loading'),
+    useKeyOnly(success, 'success'),
+    useKeyOnly(error, 'error'),
+    useKeyOnly(warning, 'warning'),
+    useWidthProp(widths, null, true),
+    'form',
+    className,
+  )
+  const rest = getUnhandledProps(Form, props)
+  let _form
+
+  const handleChange = (e) => {
+    if (onChange) onChange(e, serialize(_form))
+  }
+
+  return (
+    <form
+      {...rest}
+      className={classes}
+      onChange={handleChange}
+      ref={(c) => (_form = _form || c)}
+    >
+      {children}
+    </form>
+  )
+}
+
+Form.Field = FormField
+
+Form._meta = {
+  name: 'Form',
+  type: META.TYPES.COLLECTION,
+  props: {
+    widths: ['equal'],
+    size: _.without(SUI.SIZES, 'medium'),
+  },
+}
+
+Form.propTypes = {
+  /** Primary content */
+  children: PropTypes.node,
+
+  /** Additional classes */
+  className: PropTypes.string,
+
+  /** Automatically show a loading indicator */
+  loading: PropTypes.bool,
+
+  /** Automatically show any success Message children */
+  success: PropTypes.bool,
+
+  /** Automatically show any error Message children */
+  error: PropTypes.bool,
+
+  /** Automatically show any warning Message children */
+  warning: PropTypes.bool,
+
+  /** A form can vary in size */
+  size: PropTypes.oneOf(Form._meta.props.size),
+
+  /** Forms can automatically divide fields to be equal width */
+  widths: PropTypes.oneOf(Form._meta.props.widths),
+
+  /** Called with (event, jsonSerializedForm) on change */
+  onChange: PropTypes.oneOf(Form._meta.props.widths),
+}
+
+export default Form
