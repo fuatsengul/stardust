@@ -6,6 +6,7 @@ import { Checkbox } from '../../modules'
  * A <Radio /> is sugar for <Checkbox type='radio' inputType='radio' />.
  * Useful for exclusive groups of type='slider' or type='toggle'.
  * @see Checkbox
+ * @see Form
  */
 function Radio(props) {
   return <Checkbox type='radio' {...props} inputType='radio' />

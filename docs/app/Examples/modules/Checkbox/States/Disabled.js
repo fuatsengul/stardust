@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
-import { Form, Checkbox, Field } from 'stardust'
+import { Form, Checkbox, FormField as Field } from 'stardust'
 
 export default class CheckboxDisabledExample extends Component {
   render() {
     return (
       <Form>
-        <Form.Field>
+        <Field>
           <Checkbox label='Disabled' disabled />
-        </Form.Field>
-        <Form.Field>
+        </Field>
+        <Field>
           <Checkbox type='toggle' label='Disabled' disabled />
-        </Form.Field>
+        </Field>
       </Form>
     )
   }

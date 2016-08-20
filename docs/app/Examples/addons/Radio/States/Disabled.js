@@ -1,14 +1,14 @@
 import React from 'react'
-import { Form, Radio, Field } from 'stardust'
+import { Form, Radio, FormField as Field } from 'stardust'
 
 const RadioDisabledExample = () => (
   <Form>
-    <Form.Field>
+    <Field>
       <Radio label='Disabled' disabled />
-    </Form.Field>
-    <Form.Field>
+    </Field>
+    <Field>
       <Radio type='toggle' label='Disabled' disabled />
-    </Form.Field>
+    </Field>
   </Form>
 )
 

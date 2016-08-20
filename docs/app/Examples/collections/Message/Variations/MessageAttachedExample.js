@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button, Checkbox, Form, Icon, Message } from 'stardust'
+import { Button, Checkbox, Form, FormField as Field, Icon, Message } from 'stardust'
 
-// TODO update Button and Form/Fields usage after they're updated to v1 API
+// TODO update Button usage after they're updated to v1 API
 
 const MessageAttachedExample = () => (
   <div>
@@ -11,23 +11,13 @@ const MessageAttachedExample = () => (
       content='Fill out the form below to sign-up for a new account'
     />
     <Form className='attached fluid segment'>
-      <Form.Fields evenlyDivided>
-        <Form.Field label='First Nam'>
-          <input placeholder='First Name' type='text' />
-        </Form.Field>
-        <Form.Field label='Last Nam'>
-          <input placeholder='Last Name' type='text' />
-        </Form.Field>
-      </Form.Fields>
-      <Form.Field label='Username'>
-        <input placeholder='Username' type='text' />
-      </Form.Field>
-      <Form.Field label='Password'>
-        <input type='password' />
-      </Form.Field>
-      <Form.Field className='inline'>
-        <Checkbox id='terms' label='I agree to the terms and conditions' />
-      </Form.Field>
+      <Field.Group width='equal'>
+        <Field.Input label='First Name' placeholder='First Name' type='text' />
+        <Field.Input label='Last Name' placeholder='Last Name' type='text' />
+      </Field.Group>
+      <Field.Input label='Username' placeholder='Username' type='text' />
+      <Field.Input label='Password' type='password' />
+      <Field.Checkbox inline label='I agree to the terms and conditions' />
       <Button className='blue submit button'>Submit</Button>
     </Form>
     <Message attached='bottom' warning>

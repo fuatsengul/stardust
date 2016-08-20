@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Checkbox } from 'stardust'
+import { Form, FormField as Field, Checkbox } from 'stardust'
 
 export default class CheckboxRadioGroupExample extends Component {
   state = {}
@@ -8,10 +8,10 @@ export default class CheckboxRadioGroupExample extends Component {
   render() {
     return (
       <Form>
-        <Form.Field>
+        <Field>
           Selected value: <b>{this.state.value}</b>
-        </Form.Field>
-        <Form.Field>
+        </Field>
+        <Field>
           <Checkbox
             type='radio'
             label='Choose this'
@@ -20,8 +20,8 @@ export default class CheckboxRadioGroupExample extends Component {
             checked={this.state.value === 'this'}
             onClick={this.handleClick}
           />
-        </Form.Field>
-        <Form.Field>
+        </Field>
+        <Field>
           <Checkbox
             type='radio'
             label='Or that'
@@ -30,7 +30,7 @@ export default class CheckboxRadioGroupExample extends Component {
             checked={this.state.value === 'that'}
             onClick={this.handleClick}
           />
-        </Form.Field>
+        </Field>
       </Form>
     )
   }

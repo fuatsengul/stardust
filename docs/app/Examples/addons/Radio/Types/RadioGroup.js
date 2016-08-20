@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Radio } from 'stardust'
+import { Form, FormField as Field, Radio } from 'stardust'
 
 export default class RadioGroupExample extends Component {
   state = {}
@@ -8,10 +8,10 @@ export default class RadioGroupExample extends Component {
   render() {
     return (
       <Form>
-        <Form.Field>
+        <Field>
           Selected value: <b>{this.state.value}</b>
-        </Form.Field>
-        <Form.Field>
+        </Field>
+        <Field>
           <Radio
             label='Choose this'
             name='radioGroup'
@@ -19,8 +19,8 @@ export default class RadioGroupExample extends Component {
             checked={this.state.value === 'this'}
             onClick={this.handleClick}
           />
-        </Form.Field>
-        <Form.Field>
+        </Field>
+        <Field>
           <Radio
             label='Or that'
             name='radioGroup'
@@ -28,7 +28,7 @@ export default class RadioGroupExample extends Component {
             checked={this.state.value === 'that'}
             onClick={this.handleClick}
           />
-        </Form.Field>
+        </Field>
       </Form>
     )
   }

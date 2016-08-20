@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Checkbox, Select, Form, Input, Message } from 'stardust'
+import { Button, Checkbox, Select, Form, FormField as Field, Input, Message } from 'stardust'
 
 const fields = {
   name: 'empty',
@@ -26,29 +26,29 @@ const skillsOptions = [
 const FormSpecifyingValidationRulesExample = (props) => (
   <Form className='segment' fields={fields}>
     <p>Tell Us About Yourself</p>
-    <Form.Fields evenlyDivided>
-      <Form.Field>
+    <Field.Group evenlyDivided>
+      <Field>
         <label>Name</label>
         <Input placeholder='First Name' name='name' type='text' />
-      </Form.Field>
-      <Form.Field label='Gender'>
+      </Field>
+      <Field label='Gender'>
         <Select name='gender' options={genderOptions} />
-      </Form.Field>
-    </Form.Fields>
-    <Form.Fields evenlyDivided>
-      <Form.Field label='Username'>
+      </Field>
+    </Field.Group>
+    <Field.Group evenlyDivided>
+      <Field label='Username'>
         <Input placeholder='Username' name='username' type='text' />
-      </Form.Field>
-      <Form.Field label='Password'>
+      </Field>
+      <Field label='Password'>
         <Input type='password' name='password' />
-      </Form.Field>
-    </Form.Fields>
-    <Form.Field label='Skills'>
+      </Field>
+    </Field.Group>
+    <Field label='Skills'>
       <Select multiple name='skills' options={skillsOptions} />
-    </Form.Field>
-    <Form.Field className='inline'>
+    </Field>
+    <Field className='inline'>
       <Checkbox name='terms' className='hidden' label='I agree to the terms and conditions' />
-    </Form.Field>
+    </Field>
     <Button className='blue submit'>Submit</Button>
     <Message error />
   </Form>

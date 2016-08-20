@@ -2,6 +2,10 @@ import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 import { META } from '../../lib'
 
+/**
+ * A Button indicates a possible user action
+ * @see Form
+ */
 export default class Button extends Component {
   static propTypes = {
     children: PropTypes.node,

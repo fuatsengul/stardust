@@ -5,6 +5,10 @@ import React, { Component, PropTypes, Children } from 'react'
 import { getUnhandledProps, META } from '../../lib'
 import { Icon } from '../../elements'
 
+/**
+ * An Input is a field used to elicit a response from a user
+ * @see Form
+ */
 export default class Input extends Component {
   static propTypes = {
     children: PropTypes.node,

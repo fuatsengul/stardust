@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
-import { Form, Input } from 'stardust'
+import { Form, FormField as Field, Input } from 'stardust'
 
 export default class FormGroupEvenlyDividedExample extends Component {
   render() {
     return (
       <Form>
-        <Form.Fields evenlyDivided>
-          <Form.Field label='First name'>
+        <Field.Group evenlyDivided>
+          <Field label='First name'>
             <Input placeholder='First name' />
-          </Form.Field>
-          <Form.Field label='Last name'>
+          </Field>
+          <Field label='Last name'>
             <Input placeholder='Last name' />
-          </Form.Field>
-        </Form.Fields>
+          </Field>
+        </Field.Group>
       </Form>
     )
   }
